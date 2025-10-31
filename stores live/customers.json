@@ -1,0 +1,56 @@
+[
+  {
+    "id": "txn_1761931861845_zw7mdlj34",
+    "email": "orjimichael4886@gmail.com",
+    "firstName": "Michael",
+    "lastName": "Orji",
+    "code": "CUS_pjy8tt7zfu6drrm",
+    "metadata": {
+      "transactions": [],
+      "subscriptions": [],
+      "authorizations": [],
+      "first_name": "Michael",
+      "last_name": "Orji",
+      "email": "orjimichael4886@gmail.com",
+      "integration": 1621620,
+      "domain": "live",
+      "customer_code": "CUS_pjy8tt7zfu6drrm",
+      "risk_action": "default",
+      "id": 315991147,
+      "createdAt": "2025-10-31T17:31:01.566Z",
+      "updatedAt": "2025-10-31T17:31:01.566Z",
+      "identified": false,
+      "identifications": null,
+      "phone": "08148863871"
+    },
+    "walletBalance": 0
+  },
+  {
+    "id": "txn_1761932023362_mi7c3kweo",
+    "email": "orjimichael2240@gmail.com",
+    "firstName": "Michael",
+    "lastName": "Orji",
+    "code": "CUS_zmb5em28zxtej5o",
+    "phoneNumber": "08148863871",
+    "metadata": {
+      "transactions": [],
+      "subscriptions": [],
+      "authorizations": [],
+      "first_name": "Michael",
+      "last_name": "Orji",
+      "email": "orjimichael2240@gmail.com",
+      "phone": "08148863871",
+      "integration": 1621620,
+      "domain": "live",
+      "metadata": {},
+      "customer_code": "CUS_zmb5em28zxtej5o",
+      "risk_action": "default",
+      "id": 315991648,
+      "createdAt": "2025-10-31T17:33:43.098Z",
+      "updatedAt": "2025-10-31T17:33:43.098Z",
+      "identified": false,
+      "identifications": null
+    },
+    "walletBalance": 0
+  }
+]
