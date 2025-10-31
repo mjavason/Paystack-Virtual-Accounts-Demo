@@ -10,6 +10,7 @@ interface Customer {
   code: string;
 
   metadata?: Record<string, any>;
+  walletBalance: number;
 }
 
 class CustomerDatabase {
@@ -42,11 +43,12 @@ class CustomerDatabase {
     }
   }
 
-  create(customer: Omit<Customer, 'id'>): Customer {
+  create(customer: Omit<Customer, 'id' | 'walletBalance'>): Customer {
     const id = this.generateId();
     const newCustomer: Customer = {
       id,
       ...customer,
+      walletBalance: 0,
     };
     this.customers.set(id, newCustomer);
     this.saveToFile();

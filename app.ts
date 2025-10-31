@@ -185,11 +185,20 @@ app.post('/webhook', (req: Request, res: Response) => {
   if (event.event === 'charge.success') {
     const chargeData = event.data as ChargeSuccessWebhookType['data'];
     const reference = chargeData.reference;
+
     const transaction = transactionDb.findByReference(reference);
     if (transaction) {
       transaction.status = 'completed';
+      transaction.metadata = chargeData;
       transactionDb.update(transaction.id, transaction);
       console.log(`Transaction ${reference} marked as completed.`);
+    }
+
+    const customer = customerDb.findByCode(chargeData.customer.customer_code);
+    if (customer) {
+      customer.walletBalance += chargeData.amount;
+      customerDb.update(customer.id, customer);
+      console.log(`Customer ${customer.id} wallet balance updated.`);
     }
   }
 

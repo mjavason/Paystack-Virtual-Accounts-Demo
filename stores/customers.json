@@ -5,6 +5,7 @@
     "firstName": "John",
     "lastName": "Doe",
     "code": "CUS_54sf09wzdpshaah",
+    "walletBalance": 0,
     "metadata": {
       "transactions": [],
       "subscriptions": [],
