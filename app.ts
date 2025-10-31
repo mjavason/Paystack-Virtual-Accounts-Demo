@@ -3,8 +3,10 @@ import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
-import { BASE_URL, PORT } from './constants';
+import { BASE_URL, paystackApi, PORT } from './constants';
 import { setupSwagger } from './swagger.config';
+import { transactionDb } from './transactions.database';
+import { InitPaymentType } from './types/initialize-payment.type';
 
 //#region App Setup
 const app = express();
@@ -20,6 +22,83 @@ app.use(morgan('dev'));
 setupSwagger(app, BASE_URL);
 
 //#endregion App Setup
+
+/**
+ * @swagger
+ * /initialize-payment:
+ *   post:
+ *     summary: Initialize a payment
+ *     description: Returns a payment initialization URL
+ *     tags: [Payment]
+ *     responses:
+ *       '200':
+ *         description: Successful.
+ *       '400':
+ *         description: Bad request.
+ */
+app.post('/initialize-payment', async (req: Request, res: Response) => {
+  try {
+    const { email = 'test@example.com', amount = 1000 } = req.body;
+    const response = await paystackApi.post<InitPaymentType>('/transaction/initialize', {
+      email,
+      amount: amount * 100, // Paystack expects amount in kobo
+    });
+
+    if (!response.data) {
+      return res.status(400).json({
+        success: false,
+        message: 'Unable to initialize payment',
+      });
+    }
+
+    transactionDb.create({
+      amount: amount,
+      reference: response.data.reference,
+      authUrl: response.data.authorization_url,
+    });
+
+    return res.json({
+      success: true,
+      data: response.data,
+    });
+  } catch (error: any) {
+    console.error('Payment initialization error:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to initialize payment',
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /webhook:
+ *   post:
+ *     summary: Payment webhook endpoint
+ *     description: Handles payment gateway webhooks
+ *     tags: [Payment]
+ *     responses:
+ *       '200':
+ *         description: Successful.
+ *       '400':
+ *         description: Bad request.
+ */
+app.post('/webhook', (req: Request, res: Response) => {
+  console.log('Webhook received:', req.body);
+  const event = req.body as { event: string; data: any };
+
+  if (event.event === 'charge.success') {
+    const reference = event.data.reference;
+    const transaction = transactionDb.findByReference(reference);
+    if (transaction) {
+      transaction.status = 'completed';
+      transactionDb.update(transaction.id, transaction);
+      console.log(`Transaction ${reference} marked as completed.`);
+    }
+  }
+
+  res.sendStatus(200);
+});
 
 //#region Code here
 

@@ -21,7 +21,7 @@ export class ApiService {
     try {
       const response: AxiosResponse<T> = await this.api.request({
         method,
-        url: `${this.baseUrl}/${url}`,
+        url: `${this.baseUrl}${url}`,
         data,
         ...config,
       });

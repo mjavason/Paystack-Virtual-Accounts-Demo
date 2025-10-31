@@ -7,6 +7,7 @@ interface Transaction {
   reference: string;
   authUrl: string;
   metadata?: Record<string, any>;
+  status?: 'pending' | 'completed' | 'failed';
 }
 
 class TransactionDatabase {
@@ -44,6 +45,7 @@ class TransactionDatabase {
     const newTransaction: Transaction = {
       id,
       ...transaction,
+      status: 'pending',
     };
     this.transactions.set(id, newTransaction);
     this.saveToFile();
