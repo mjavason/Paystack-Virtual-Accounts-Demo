@@ -43,8 +43,9 @@ setupSwagger(app, BASE_URL);
  */
 app.post('/virtual-account', async (req: Request, res: Response) => {
   const response = await paystackApi.post<CreateVirtualAccountResponseType>('/dedicated_account', {
-    customer: 'CUS_54sf09wzdpshaah', // Replace with actual customer code
-    preferred_bank: 'test-bank', // titan-paystack is unavailable in test mode
+    customer: 'CUS_zmb5em28zxtej5o',
+    // preferred_bank: 'test-bank', // titan-paystack is unavailable in test mode
+    preferred_bank: 'titan-paystack',
   });
 
   if (!response.data) {
@@ -90,9 +91,10 @@ app.post('/virtual-account', async (req: Request, res: Response) => {
  */
 app.post('/customer', async (req: Request, res: Response) => {
   const response = await paystackApi.post<CreateCustomerResponseType>('/customer', {
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john.doe@example.com',
+    first_name: 'Michael',
+    last_name: 'Orji',
+    email: 'orjimichael2240@gmail.com',
+    phone: '08148863871',
   });
   if (!response.data) {
     return res.status(400).json({
@@ -108,6 +110,7 @@ app.post('/customer', async (req: Request, res: Response) => {
       firstName: response.data.first_name,
       lastName: response.data.last_name,
       code: response.data.customer_code,
+      phoneNumber: response.data.phone,
       metadata: response.data,
     });
   }
@@ -133,7 +136,7 @@ app.post('/customer', async (req: Request, res: Response) => {
  */
 app.post('/initialize-payment', async (req: Request, res: Response) => {
   try {
-    const { email = 'test@example.com', amount = 1000 } = req.body;
+    const { email = 'test@example.com', amount = 50 } = req.body;
     const response = await paystackApi.post<InitPaymentType>('/transaction/initialize', {
       email,
       amount: amount * 100, // Paystack expects amount in kobo

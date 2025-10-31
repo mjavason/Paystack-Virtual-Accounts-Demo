@@ -8,6 +8,7 @@ interface Customer {
   firstName: string;
   lastName: string;
   code: string;
+  phoneNumber: string;
 
   metadata?: Record<string, any>;
   walletBalance: number;

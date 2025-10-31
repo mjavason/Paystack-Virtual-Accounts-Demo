@@ -1,0 +1,49 @@
+[
+  {
+    "id": "txn_1761907861591_0ek4p1l06",
+    "metadata": {
+      "bank": {
+        "name": "Test Bank",
+        "id": 24,
+        "slug": "test-bank"
+      },
+      "account_name": "TEST-MANAGED-ACCOUNT",
+      "account_number": "1238428962",
+      "assigned": true,
+      "currency": "NGN",
+      "metadata": null,
+      "active": true,
+      "id": 10329685,
+      "created_at": "2023-03-03T09:01:25.000Z",
+      "updated_at": "2025-10-31T10:29:04.000Z",
+      "assignment": {
+        "assignee_id": 315895313,
+        "assignee_type": "Customer",
+        "assigned_at": "2025-10-31T10:29:04.000Z",
+        "expired": false,
+        "expired_at": null,
+        "integration": 1621620,
+        "account_type": "PAY-WITH-TRANSFER-RECURRING"
+      },
+      "customer": {
+        "id": 315895313,
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "john.doe2@example.com",
+        "customer_code": "CUS_54sf09wzdpshaah",
+        "phone": null,
+        "metadata": null,
+        "risk_action": "default",
+        "international_format_phone": null
+      }
+    },
+    "bankName": "Test Bank",
+    "bankId": 24,
+    "bankSlug": "test-bank",
+    "accountName": "TEST-MANAGED-ACCOUNT",
+    "accountNumber": "1238428962",
+    "assigned": true,
+    "currency": "NGN",
+    "customerCode": "CUS_54sf09wzdpshaah"
+  }
+]

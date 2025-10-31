@@ -16,5 +16,6 @@ export interface CreateCustomerResponseType {
         updatedAt: string;
         identified: boolean;
         identifications: any;
+        phone: string;
     };
 }

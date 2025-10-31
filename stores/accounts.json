@@ -1,49 +1,50 @@
 [
   {
-    "id": "txn_1761907861591_0ek4p1l06",
+    "id": "txn_1761932094093_4rmb7ofvk",
     "metadata": {
       "bank": {
-        "name": "Test Bank",
-        "id": 24,
-        "slug": "test-bank"
+        "name": "Paystack-Titan",
+        "id": 629,
+        "slug": "titan-paystack"
       },
-      "account_name": "TEST-MANAGED-ACCOUNT",
-      "account_number": "1238428962",
+      "account_name": "DINNGSOFTWARE/ORJI MICHAEL",
+      "account_number": "9950266099",
       "assigned": true,
       "currency": "NGN",
       "metadata": null,
       "active": true,
-      "id": 10329685,
-      "created_at": "2023-03-03T09:01:25.000Z",
-      "updated_at": "2025-10-31T10:29:04.000Z",
+      "id": 35359415,
+      "created_at": "2025-10-28T14:30:29.000Z",
+      "updated_at": "2025-10-31T17:34:53.000Z",
       "assignment": {
-        "assignee_id": 315895313,
-        "assignee_type": "Customer",
-        "assigned_at": "2025-10-31T10:29:04.000Z",
-        "expired": false,
-        "expired_at": null,
         "integration": 1621620,
-        "account_type": "PAY-WITH-TRANSFER-RECURRING"
+        "assignee_id": 315991648,
+        "assignee_type": "Customer",
+        "expired": false,
+        "account_type": "PAY-WITH-TRANSFER-RECURRING",
+        "assigned_at": "2025-10-31T17:34:53.835Z",
+        "expired_at": null,
+        "assignment_expires_at": null
       },
       "customer": {
-        "id": 315895313,
-        "first_name": "John",
-        "last_name": "Doe",
-        "email": "john.doe2@example.com",
-        "customer_code": "CUS_54sf09wzdpshaah",
-        "phone": null,
-        "metadata": null,
+        "id": 315991648,
+        "first_name": "Michael",
+        "last_name": "Orji",
+        "email": "orjimichael2240@gmail.com",
+        "customer_code": "CUS_zmb5em28zxtej5o",
+        "phone": "08148863871",
+        "metadata": {},
         "risk_action": "default",
         "international_format_phone": null
       }
     },
-    "bankName": "Test Bank",
-    "bankId": 24,
-    "bankSlug": "test-bank",
-    "accountName": "TEST-MANAGED-ACCOUNT",
-    "accountNumber": "1238428962",
+    "bankName": "Paystack-Titan",
+    "bankId": 629,
+    "bankSlug": "titan-paystack",
+    "accountName": "DINNGSOFTWARE/ORJI MICHAEL",
+    "accountNumber": "9950266099",
     "assigned": true,
     "currency": "NGN",
-    "customerCode": "CUS_54sf09wzdpshaah"
+    "customerCode": "CUS_zmb5em28zxtej5o"
   }
 ]
