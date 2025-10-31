@@ -84,7 +84,7 @@ app.post('/initialize-payment', async (req: Request, res: Response) => {
  *         description: Bad request.
  */
 app.post('/webhook', (req: Request, res: Response) => {
-  console.log('Webhook received:', req.body);
+  // console.log('Webhook received:', req.body);
   const event = req.body as { event: string; data: any };
 
   if (event.event === 'charge.success') {

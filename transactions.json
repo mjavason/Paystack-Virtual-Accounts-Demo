@@ -11,13 +11,13 @@
     "amount": 1000,
     "reference": "jwve8wryak",
     "authUrl": "https://checkout.paystack.com/wjzwzhfe5f420pt",
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "txn_1761903986599_f2m12ohqc",
     "amount": 1000,
     "reference": "c0ya5705ua",
     "authUrl": "https://checkout.paystack.com/5gb38ezpaz6aqa7",
-    "status": "pending"
+    "status": "completed"
   }
 ]
