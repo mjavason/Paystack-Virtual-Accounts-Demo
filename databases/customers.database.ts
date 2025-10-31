@@ -17,7 +17,7 @@ class CustomerDatabase {
   private readonly filePath: string;
 
   constructor(filePath: string = 'customers.json') {
-    this.filePath = join(process.cwd(), filePath);
+    this.filePath = join(__dirname, '..', 'stores', filePath);
     this.loadFromFile();
   }
 

@@ -15,7 +15,7 @@ class TransactionDatabase {
   private readonly filePath: string;
 
   constructor(filePath: string = 'transactions.json') {
-    this.filePath = join(process.cwd(), filePath);
+    this.filePath = join(__dirname, '..', 'stores', filePath);
     this.loadFromFile();
   }
 

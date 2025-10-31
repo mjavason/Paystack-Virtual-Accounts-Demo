@@ -4,11 +4,13 @@ import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
 import { BASE_URL, paystackApi, PORT } from './constants';
-import { customerDb } from './customers.database';
+import { accountDb } from './databases/accounts';
+import { customerDb } from './databases/customers.database';
+import { transactionDb } from './databases/transactions.database';
 import { setupSwagger } from './swagger.config';
-import { transactionDb } from './transactions.database';
 import { ChargeSuccessWebhookType } from './types/charge-webhook.type';
 import { CreateCustomerResponseType } from './types/create-customer.type';
+import { CreateVirtualAccountResponseType } from './types/create-virtual-account.type';
 import { InitPaymentType } from './types/initialize-payment.type';
 
 //#region App Setup
@@ -28,6 +30,53 @@ setupSwagger(app, BASE_URL);
 
 /**
  * @swagger
+ * /virtual-account:
+ *   post:
+ *     summary: Create a dedicated paystack virtual account
+ *     description: Creates a new virtual account in the payment gateway
+ *     tags: [Payment - Virtual Account]
+ *     responses:
+ *       '200':
+ *         description: Successful.
+ *       '400':
+ *         description: Bad request.
+ */
+app.post('/virtual-account', async (req: Request, res: Response) => {
+  const response = await paystackApi.post<CreateVirtualAccountResponseType>('/dedicated_account', {
+    customer: 'CUS_54sf09wzdpshaah', // Replace with actual customer code
+    preferred_bank: 'test-bank', // titan-paystack is unavailable in test mode
+  });
+
+  if (!response.data) {
+    return res.status(400).json({
+      success: false,
+      message: 'Unable to create virtual account',
+    });
+  }
+
+  const isDuplicate = accountDb.findByCustomerCode(response.data.customer.customer_code);
+  if (!isDuplicate) {
+    accountDb.create({
+      metadata: response.data,
+      bankName: response.data.bank.name,
+      bankId: response.data.bank.id,
+      bankSlug: response.data.bank.slug,
+      accountName: response.data.account_name,
+      accountNumber: response.data.account_number,
+      assigned: response.data.assigned,
+      currency: response.data.currency,
+      customerCode: response.data.customer.customer_code,
+    });
+  }
+
+  return res.json({
+    success: true,
+    data: response.data,
+  });
+});
+
+/**
+ * @swagger
  * /customer:
  *   post:
  *     summary: Create a paystack customer
@@ -43,7 +92,7 @@ app.post('/customer', async (req: Request, res: Response) => {
   const response = await paystackApi.post<CreateCustomerResponseType>('/customer', {
     first_name: 'John',
     last_name: 'Doe',
-    email: 'john.doe2@example.com',
+    email: 'john.doe@example.com',
   });
   if (!response.data) {
     return res.status(400).json({

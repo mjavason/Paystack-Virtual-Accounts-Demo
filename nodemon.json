@@ -1,6 +1,6 @@
 {
   "watch": [".", ".env"],
   "ext": "ts,js,json,env",
-  "ignore": ["node_modules/", "build/", "dist/", "transactions.json", "customers.json"],
+  "ignore": ["node_modules/", "build/", "dist/", "stores/"],
   "exec": "ts-node app.ts"
 }
