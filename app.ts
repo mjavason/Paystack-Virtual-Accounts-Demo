@@ -4,8 +4,11 @@ import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import morgan from 'morgan';
 import { BASE_URL, paystackApi, PORT } from './constants';
+import { customerDb } from './customers.database';
 import { setupSwagger } from './swagger.config';
 import { transactionDb } from './transactions.database';
+import { ChargeSuccessWebhookType } from './types/charge-webhook.type';
+import { CreateCustomerResponseType } from './types/create-customer.type';
 import { InitPaymentType } from './types/initialize-payment.type';
 
 //#region App Setup
@@ -22,6 +25,49 @@ app.use(morgan('dev'));
 setupSwagger(app, BASE_URL);
 
 //#endregion App Setup
+
+/**
+ * @swagger
+ * /customer:
+ *   post:
+ *     summary: Create a paystack customer
+ *     description: Creates a new customer in the payment gateway
+ *     tags: [Payment - Customer]
+ *     responses:
+ *       '200':
+ *         description: Successful.
+ *       '400':
+ *         description: Bad request.
+ */
+app.post('/customer', async (req: Request, res: Response) => {
+  const response = await paystackApi.post<CreateCustomerResponseType>('/customer', {
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'john.doe2@example.com',
+  });
+  if (!response.data) {
+    return res.status(400).json({
+      success: false,
+      message: 'Unable to create customer',
+    });
+  }
+
+  const isDuplicate = customerDb.findByCode(response.data.customer_code);
+  if (!isDuplicate) {
+    customerDb.create({
+      email: response.data.email,
+      firstName: response.data.first_name,
+      lastName: response.data.last_name,
+      code: response.data.customer_code,
+      metadata: response.data,
+    });
+  }
+
+  return res.json({
+    success: true,
+    data: response.data,
+  });
+});
 
 /**
  * @swagger
@@ -88,7 +134,8 @@ app.post('/webhook', (req: Request, res: Response) => {
   const event = req.body as { event: string; data: any };
 
   if (event.event === 'charge.success') {
-    const reference = event.data.reference;
+    const chargeData = event.data as ChargeSuccessWebhookType['data'];
+    const reference = chargeData.reference;
     const transaction = transactionDb.findByReference(reference);
     if (transaction) {
       transaction.status = 'completed';

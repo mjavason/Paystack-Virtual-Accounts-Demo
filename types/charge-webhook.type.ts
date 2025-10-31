@@ -1,4 +1,4 @@
-export interface ChargeSuccessWebhook {
+export interface ChargeSuccessWebhookType {
   event: 'charge.success';
   data: {
     id: number;
