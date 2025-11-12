@@ -44,8 +44,8 @@ setupSwagger(app, BASE_URL);
 app.post('/virtual-account', async (req: Request, res: Response) => {
   const response = await paystackApi.post<CreateVirtualAccountResponseType>('/dedicated_account', {
     customer: 'CUS_zmb5em28zxtej5o',
-    // preferred_bank: 'test-bank', // titan-paystack is unavailable in test mode
-    preferred_bank: 'titan-paystack',
+    // preferred_bank: 'test-bank',
+    preferred_bank: 'titan-paystack', // titan-paystack is unavailable in test mode
   });
 
   if (!response.data) {
@@ -182,7 +182,7 @@ app.post('/initialize-payment', async (req: Request, res: Response) => {
  *         description: Bad request.
  */
 app.post('/webhook', (req: Request, res: Response) => {
-  // console.log('Webhook received:', req.body);
+  console.log('Webhook received:', req.body);
   const event = req.body as { event: string; data: any };
 
   if (event.event === 'charge.success') {
@@ -199,7 +199,7 @@ app.post('/webhook', (req: Request, res: Response) => {
 
     const customer = customerDb.findByCode(chargeData.customer.customer_code);
     if (customer) {
-      customer.walletBalance += chargeData.amount;
+      customer.walletBalance += chargeData.amount / 100; // Convert kobo to naira
       customerDb.update(customer.id, customer);
       console.log(`Customer ${customer.id} wallet balance updated.`);
     }
